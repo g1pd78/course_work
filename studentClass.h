@@ -135,6 +135,8 @@ public:
 
 		int _semCount = students.at(i).Exams.semCount;
 
+		cout << "------------------------------------\n";
+
 		for(int k = 0;k < _semCount;k++)
 		{
 			int _subjCount = students.at(i).Exams.subjCount[k];
@@ -211,7 +213,7 @@ public:
 
 				for(int k = 0;k < _semCount;k++)
 				{
-					out << "[\n";
+					//out << "[\n";
 					int _subjCount = students.at(i).Exams.subjCount[k];
 					out << "subjCount:" << _subjCount << '\n';
 					for(int j = 0;j < _subjCount;j++)
@@ -219,7 +221,7 @@ public:
 						out << "subj:" << students.at(i).Exams.data[k][j].name << '\n';
 						out << "mark:" << students.at(i).Exams.data[k][j].mark << '\n';
 					}
-					out << "]\n";
+					//out << "]\n";
 				}
     			out <<"}\n";
     		}
@@ -229,12 +231,17 @@ public:
 	}
 	void loadFromFile(){
 		ifstream in("db.txt");
+		//cout << "asdasdasd";
+
+		//int x;
+		//cin>>x;
 		string line;
 		int count = 0;
 		//students.push_back();
     	if (in.is_open())
     	{
     		StudentClass st;
+    		
         	while (getline(in, line))
         	{
             	if(line != "{")
@@ -253,21 +260,26 @@ public:
             		if(line.substr(0, 11) == "DateOfBirth")st.DateOfBirth = line.substr(12, line.size()-12);
             		if(line.substr(0, 14) == "DateOfEduStart")st.DateOfEduStart = line.substr(15, line.size()-15);
 
-            		if(line.substr(0, 8) == "semCount")st.Exams.semCount = stoi(line.substr(9, line.size() - 9));
-
-            		for(int k = 0;k < st.Exams.semCount;k++)
+            		if(line.substr(0, 8) == "semCount")
             		{
-            			getline(in, line);
-            			if(line.substr(0, 9) == "subjCount")st.Exams.subjCount[k] = stoi(line.substr(10, line.size() - 10));
-            			for (int j = 0; j < st.Exams.subjCount[k]; j++)
-            			{
-            				getline(in, line);
-            				if(line.substr(0, 4) == "mark")st.Exams.data[k][j].mark = stoi(line.substr(5, line.size()-5));
-            				if(line.substr(0, 4) == "subj")st.Exams.data[k][j].name = line.substr(5, line.size()-5);
-            			}
-            		}
+            			st.Exams.semCount = stoi(line.substr(9, line.size() - 9));
 
-            	
+		        		for(int k = 0;k < st.Exams.semCount;k++)
+		        		{
+
+		        			getline(in, line);
+
+		        			if(line.substr(0, 9) == "subjCount")st.Exams.subjCount[k] = stoi(line.substr(10, line.size() - 10));
+		        			for (int j = 0; j < st.Exams.subjCount[k]; j++)
+		        			{
+
+		        				getline(in, line);
+		        				if(line.substr(0, 4) == "subj")st.Exams.data[k][j].name = line.substr(5, line.size()-5);
+		        				getline(in, line);
+		        				if(line.substr(0, 4) == "mark")st.Exams.data[k][j].mark = stoi(line.substr(5, line.size()-5));	
+		        			}
+		        		}       
+		        	}     	
             	}
             	if(line == "}")students.push_back(st);
         	}

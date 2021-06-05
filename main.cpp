@@ -21,7 +21,6 @@ using namespace std;
 
 int main(){
 
-
 	Menu *mainMenu = new Menu();
 	mainMenu->isRun = true;
 	mainMenu->paint();
