@@ -301,6 +301,7 @@ public:
 		out.open("db.txt", std::ios::app);
 		if (out.is_open())
     	{
+    		_rsa *r = new _rsa();
     		for(int i = 0;i < students.size();i++)
     		{
     			out <<"{\n";

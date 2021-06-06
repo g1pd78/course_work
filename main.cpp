@@ -3,9 +3,9 @@
 #include <fstream>
 #include "studentClass.h"
 #include "menuClass.h"
+#include "EncDecClass.h"
 
-
-
+using namespace CryptoPP;
 using namespace std;
 
 
@@ -16,10 +16,29 @@ using namespace std;
 #define KWHT  "\x1B[37m"
 
 
+/*
+Запись отдельных данных в файл
+Удаление отдельных записей из файла
+Обновить данные в файле
+
+
+
+*/
+
 
 
 
 int main(){
+
+	_rsa *r = new _rsa();
+
+	cout << r->encrypt("Hello") << '\n';
+	cout << r->decrypt(r->encrypt("Hello")) << '\n';
+
+	/*
+	cout << blow->Encrypt("Hello World!", key, iv) << '\n';
+	cout << blow->Decrypt(blow->Encrypt("Hello World!", key, iv));*/
+	mygetch();
 
 	Menu *mainMenu = new Menu();
 	mainMenu->isRun = true;
