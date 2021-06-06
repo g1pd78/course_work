@@ -76,8 +76,6 @@ public:
 
 	ExamsResultsClass Exams;
 
-	int id;
-
 	void setData() {
 		cout << "Введите имя студента:\n";
 		cin >> name;
@@ -160,30 +158,142 @@ public:
 
 	void printBySurName(string studentsSurName){
 		for(int i = 0;i < students.size();i++)
-			if(students.at(i).name == studentsSurName)
+			if(students.at(i).surName == studentsSurName)
 				printInfo(i);
 			cout << "Нажмите любую клавишу для продолжения...\n";
 	}
 
 	void printByMiddleName(string studentsMiddleName){
 		for(int i = 0;i < students.size();i++)
-			if(students.at(i).name == studentsMiddleName)
+			if(students.at(i).middleName == studentsMiddleName)
+				printInfo(i);
+			cout << "Нажмите любую клавишу для продолжения...\n";
+	}
+
+	void printByUniqueCardNumber(string studentsUniqueCardNumber){
+		for(int i = 0;i < students.size();i++)
+			if(students.at(i).uniqueCardNumber == studentsUniqueCardNumber)
+				printInfo(i);
+			cout << "Нажмите любую клавишу для продолжения...\n";
+	}
+
+	void printByKaf(string studentsKaf){
+		for(int i = 0;i < students.size();i++)
+			if(students.at(i).kaf == studentsKaf)
+				printInfo(i);
+			cout << "Нажмите любую клавишу для продолжения...\n";
+	}
+
+		void printByFac(string studentsFac){
+		for(int i = 0;i < students.size();i++)
+			if(students.at(i).fac == studentsFac)
 				printInfo(i);
 			cout << "Нажмите любую клавишу для продолжения...\n";
 	}
 	///остальные поиски
 
-	void editName(string studentsName){
+	void editPrm(string UCN, int prm){
+		bool wasChanged = false;
 		for(int i = 0;i < students.size();i++)
-			if(students.at(i).name == studentsName)
+			/*if(students.at(i).uniqueCardNumber == UCN)
 			{
 				cout << "Введите новое имя:\n";
 				string newName;
 				cin >> newName;
 				students.at(i).setName(newName);
 				cout << "Имя изменено!\n";
+			}*/
+			if(students.at(i).uniqueCardNumber == UCN)
+			{
+				switch(prm)
+				{
+					case 0:
+					{
+						cout << "Введите новое имя:\n";
+						string newName;
+						cin >> newName;
+						students.at(i).setName(newName);
+						cout << "Имя изменено!\n";
+						break;
+					}
+					case 1:
+					{
+						cout << "Введите новую фамилию:\n";
+						string newSurName;
+						cin >> newSurName;
+						students.at(i).setName(newSurName);
+						cout << "Фамилия изменено!\n";
+						break;
+					}
+					case 2:
+					{
+						cout << "Введите новое отчество:\n";
+						string newMiddleName;
+						cin >> newMiddleName;
+						students.at(i).setName(newMiddleName);
+						cout << "Отчество изменено!\n";
+						break;
+					}
+					case 3:
+					{
+						cout << "Введите новый пол:\n";
+						string newSexName;
+						cin >> newSexName;
+						students.at(i).setName(newSexName);
+						cout << "Пол изменено!\n";
+						break;
+					}
+					case 4:
+					{
+						cout << "Введите новый факультет:\n";
+						string newFac;
+						cin >> newFac;
+						students.at(i).setName(newFac);
+						cout << "Факультет изменен!\n";
+						break;
+					}
+					case 5:
+					{
+						cout << "Введите новую кафедру:\n";
+						string newKaf;
+						cin >> newKaf;
+						students.at(i).setName(newKaf);
+						cout << "Кафедра изменена!\n";
+						break;
+					}
+					case 6:
+					{
+						cout << "Введите новый день рождения:\n";
+						string newDateOfBirth;
+						cin >> newDateOfBirth;
+						students.at(i).setName(newDateOfBirth);
+						cout << "День рождения изменен!\n";
+						break;
+					}
+					case 7:
+					{
+						cout << "Введите новый день поступления:\n";
+						string newDateOfEduStart;
+						cin >> newDateOfEduStart;
+						students.at(i).setName(newDateOfEduStart);
+						cout << "День поступления изменен!\n";
+						break;
+					}
+					case 8:
+					{
+						cout << "Введите новую группу:\n";
+						string newGroup;
+						cin >> newGroup;
+						students.at(i).setName(newGroup);
+						cout << "Группа изменена!\n";
+						break;
+					}
+				}
+				wasChanged = true;
 			}
+			if(!wasChanged)cout<<"Ошибка!\n";
 	}
+
 
 
 	void loadIntoFile(){
@@ -266,13 +376,10 @@ public:
 
 		        		for(int k = 0;k < st.Exams.semCount;k++)
 		        		{
-
 		        			getline(in, line);
-
 		        			if(line.substr(0, 9) == "subjCount")st.Exams.subjCount[k] = stoi(line.substr(10, line.size() - 10));
 		        			for (int j = 0; j < st.Exams.subjCount[k]; j++)
 		        			{
-
 		        				getline(in, line);
 		        				if(line.substr(0, 4) == "subj")st.Exams.data[k][j].name = line.substr(5, line.size()-5);
 		        				getline(in, line);
