@@ -34,4 +34,5 @@ int main(){
 
 	}
 	cout << mainMenu->mirea->students.size();
+	delete mainMenu;
 }
