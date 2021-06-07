@@ -3,7 +3,7 @@
 #include <fstream>
 #include "studentClass.h"
 #include "menuClass.h"
-#include "EncDecClass.h"
+
 
 using namespace CryptoPP;
 using namespace std;
@@ -26,19 +26,10 @@ using namespace std;
 */
 
 
+#include <sstream>
 
 
 int main(){
-
-	_rsa *r = new _rsa();
-
-	cout << r->encrypt("Hello") << '\n';
-	cout << r->decrypt(r->encrypt("Hello")) << '\n';
-
-	/*
-	cout << blow->Encrypt("Hello World!", key, iv) << '\n';
-	cout << blow->Decrypt(blow->Encrypt("Hello World!", key, iv));*/
-	mygetch();
 
 	Menu *mainMenu = new Menu();
 	mainMenu->isRun = true;

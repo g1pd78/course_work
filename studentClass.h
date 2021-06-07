@@ -1,6 +1,7 @@
 #include <iostream>
 #include "list.hpp"
 #include <fstream>
+#include "EncDecClass.h"
 
 using namespace std;
 
@@ -184,7 +185,7 @@ public:
 			cout << "Нажмите любую клавишу для продолжения...\n";
 	}
 
-		void printByFac(string studentsFac){
+	void printByFac(string studentsFac){
 		for(int i = 0;i < students.size();i++)
 			if(students.at(i).fac == studentsFac)
 				printInfo(i);
@@ -298,98 +299,132 @@ public:
 
 	void loadIntoFile(){
 		ofstream out;
-		out.open("db.txt", std::ios::app);
+		out.open("db.rsa", std::ios::app);
 		if (out.is_open())
     	{
     		_rsa *r = new _rsa();
     		for(int i = 0;i < students.size();i++)
     		{
-    			out <<"{\n";
-    			out << "Name:" << students.at(i).name << '\n';
-    			out << "surName:" << students.at(i).surName << '\n';
-    			out << "middleName:" << students.at(i).middleName << '\n';
-    			out << "fac:" << students.at(i).fac << '\n';
-    			out << "kaf:" << students.at(i).kaf << '\n';
-    			out << "group:" << students.at(i).group << '\n';
-    			out << "sex:" << students.at(i).sex << '\n';
-    			out << "uniqueCardNumber:" << students.at(i).uniqueCardNumber << '\n';
-    			out << "DateOfBirth:" << students.at(i).DateOfBirth << '\n';
-    			out << "DateOfEduStart:" << students.at(i).DateOfEduStart << '\n';
+    			/*out << r->encrypt("{") << '\n';
+    			out << r->encrypt("Name:") << r->encrypt(students.at(i).name) << '\n';
+    			out << r->encrypt("surName:") << r->encrypt(students.at(i).surName) << '\n';
+    			out << r->encrypt("middleName:") << r->encrypt(students.at(i).middleName) << '\n';
+    			out << r->encrypt("fac:") << r->encrypt(students.at(i).fac) << '\n';
+    			out << r->encrypt("kaf:") << r->encrypt(students.at(i).kaf) << '\n';
+    			out << r->encrypt("group:") << r->encrypt(students.at(i).group) << '\n';
+    			out << r->encrypt("sex:") << r->encrypt(students.at(i).sex) + '\n';
+    			out << r->encrypt("uniqueCardNumber:") << r->encrypt(students.at(i).uniqueCardNumber) << '\n';
+    			out << r->encrypt("DateOfBirth:") << r->encrypt(students.at(i).DateOfBirth) << '\n';
+    			out << r->encrypt("DateOfEduStart:") << r->encrypt(students.at(i).DateOfEduStart) << '\n';*/
 
-    			
+    			/*out << r->encrypt("{") << '\n';
+    			out << r->encrypt("Name:" + students.at(i).name) << '\n';
+    			out << r->encrypt("surName:" + students.at(i).surName) << '\n';
+    			out << r->encrypt("middleName:" + students.at(i).middleName) << '\n';
+    			out << r->encrypt("fac:" + students.at(i).fac) << '\n';
+    			out << r->encrypt("kaf:" + students.at(i).kaf) << '\n';
+    			out << r->encrypt("group:" + students.at(i).group) << '\n';
+    			out << r->encrypt("sex:" + students.at(i).sex) + '\n';
+    			out << r->encrypt("uniqueCardNumber:" + students.at(i).uniqueCardNumber) << '\n';
+    			out << r->encrypt("DateOfBirth:" + students.at(i).DateOfBirth) << '\n';
+    			out << r->encrypt("DateOfEduStart:" + students.at(i).DateOfEduStart) << '\n';*/
+
+    			string output = "{\n";
+    			output = output +
+    			"Name:" + students.at(i).name + '\n' +
+    			"surName:" + students.at(i).surName + '\n' +
+    			"middleName:" + students.at(i).middleName + '\n' +
+				"fac:" + students.at(i).fac + '\n' +
+				"kaf:" + students.at(i).kaf + '\n' +
+				"group:" + students.at(i).group + '\n' +
+				"sex:" + students.at(i).sex + '\n' +
+				"uniqueCardNumber:" + students.at(i).uniqueCardNumber + '\n' +
+				"DateOfBirth:" + students.at(i).DateOfBirth + '\n' +
+				"DateOfEduStart:" + students.at(i).DateOfEduStart + '\n';
 
     			int _semCount = students.at(i).Exams.semCount;
 
-    			out << "semCount:" << _semCount << '\n';
+    			//out << r->encrypt("semCount:" + _semCount) << '\n';
+    			output = output + "semCount:" + to_string(_semCount) + '\n';
 
 				for(int k = 0;k < _semCount;k++)
 				{
 					//out << "[\n";
 					int _subjCount = students.at(i).Exams.subjCount[k];
-					out << "subjCount:" << _subjCount << '\n';
+					//out << r->encrypt("subjCount:" + _subjCount) << '\n';
+					output = output + "subjCount:" + to_string(_subjCount) + '\n';
 					for(int j = 0;j < _subjCount;j++)
 					{
-						out << "subj:" << students.at(i).Exams.data[k][j].name << '\n';
-						out << "mark:" << students.at(i).Exams.data[k][j].mark << '\n';
+						//out << r->encrypt("subj:" + students.at(i).Exams.data[k][j].name) << '\n';
+						//out << r->encrypt("mark:" + students.at(i).Exams.data[k][j].mark) << '\n';
+						output = output + "subj:" + students.at(i).Exams.data[k][j].name + '\n';
+						output = output + "mark:" + to_string(students.at(i).Exams.data[k][j].mark) + '\n';
 					}
 					//out << "]\n";
 				}
-    			out <<"}\n";
+    			//out << r->encrypt("}") << '\n';
+    			output = output + "}\n";
+    			    	//cout << output;
+    			for(long long int i = 0;i < output.size();i++)
+    				out << r->encrypt(to_string(output[i])) << '\n';
+
     		}
     	}
     	out.close();
     	cout << "Запись прошла успешно!\nНажмите любую клавишу для продолжения...\n";
 	}
 	void loadFromFile(){
-		ifstream in("db.txt");
-		//cout << "asdasdasd";
+		ifstream in("db.rsa");
 
-		//int x;
-		//cin>>x;
-		string line;
+		int j = 0, k = 0;
+
+		string line, line1;
 		int count = 0;
-		//students.push_back();
+
     	if (in.is_open())
     	{
     		StudentClass st;
-    		
-        	while (getline(in, line))
+			_rsa *r = new _rsa();
+			bool enc = true;
+        	while (enc)
         	{
-            	if(line != "{")
+        		getline(in, line1);
+        		char str = char(stoi(r->decrypt(line1)));
+        		line = line + str;
+
+        		if(line == "{\n")line = "";
+        		if(line == "}")
             	{
-            		//cout<< line.substr(5, line.size()-5);
-            		if(line.substr(0, 4) == "Name")st.name = line.substr(5, line.size()-5);//cout<< line.substr(5, line.size()-5);
-            		//cout << st.name << '\n';
-            		//cout<< line.substr(5, line.size()-5);
-            		if(line.substr(0, 7) == "surName")st.surName = line.substr(8, line.size()-8);
-            		if(line.substr(0, 10) == "middleName")st.middleName = line.substr(11, line.size()-11);
-            		if(line.substr(0, 3) == "fac")st.fac = line.substr(4, line.size()-4);
-            		if(line.substr(0, 3) == "kaf")st.kaf = line.substr(4, line.size()-4);
-            		if(line.substr(0, 5) == "group")st.group = line.substr(6, line.size()-6);
-            		if(line.substr(0, 3) == "sex")st.sex = line.substr(4, line.size()-4);
-            		if(line.substr(0, 16) == "uniqueCardNumber")st.uniqueCardNumber = line.substr(17, line.size()-17);
-            		if(line.substr(0, 11) == "DateOfBirth")st.DateOfBirth = line.substr(12, line.size()-12);
-            		if(line.substr(0, 14) == "DateOfEduStart")st.DateOfEduStart = line.substr(15, line.size()-15);
-
-            		if(line.substr(0, 8) == "semCount")
-            		{
-            			st.Exams.semCount = stoi(line.substr(9, line.size() - 9));
-
-		        		for(int k = 0;k < st.Exams.semCount;k++)
-		        		{
-		        			getline(in, line);
-		        			if(line.substr(0, 9) == "subjCount")st.Exams.subjCount[k] = stoi(line.substr(10, line.size() - 10));
-		        			for (int j = 0; j < st.Exams.subjCount[k]; j++)
-		        			{
-		        				getline(in, line);
-		        				if(line.substr(0, 4) == "subj")st.Exams.data[k][j].name = line.substr(5, line.size()-5);
-		        				getline(in, line);
-		        				if(line.substr(0, 4) == "mark")st.Exams.data[k][j].mark = stoi(line.substr(5, line.size()-5));	
-		        			}
-		        		}       
-		        	}     	
+            		students.push_back(st);
+            		enc = false;
             	}
-            	if(line == "}")students.push_back(st);
+            	if(str == '\n')
+            	{
+
+            		if(line.substr(0, 4) == "Name")st.name = line.substr(5, line.size()-6), line = "";
+            		if(line.substr(0, 7) == "surName")st.surName = line.substr(8, line.size()-9), line = "";
+            		if(line.substr(0, 10) == "middleName")st.middleName = line.substr(11, line.size()-12), line = "";
+            		if(line.substr(0, 3) == "fac")st.fac = line.substr(4, line.size()-5), line = "";
+            		if(line.substr(0, 3) == "kaf")st.kaf = line.substr(4, line.size()-5), line = "";
+            		if(line.substr(0, 5) == "group")st.group = line.substr(6, line.size()-7), line = "";
+            		if(line.substr(0, 3) == "sex")st.sex = line.substr(4, line.size()-5), line = "";
+            		if(line.substr(0, 16) == "uniqueCardNumber")st.uniqueCardNumber = line.substr(17, line.size()-18), line = "";
+            		if(line.substr(0, 11) == "DateOfBirth")st.DateOfBirth = line.substr(12, line.size()-19), line = "";
+            		if(line.substr(0, 14) == "DateOfEduStart")st.DateOfEduStart = line.substr(15, line.size()-16), line = "";
+            		if(line.substr(0, 8) == "semCount")st.Exams.semCount = stoi(line.substr(9, line.size() - 10)), line = "", k = 0, j = 0;
+            		if(line.substr(0, 9) == "subjCount")st.Exams.subjCount[k] = stoi(line.substr(10, line.size() - 11)), line = "";
+            		if(line.substr(0, 4) == "subj")st.Exams.data[k][j].name = line.substr(5, line.size()-6), line = "";
+            		if(line.substr(0, 4) == "mark"){
+            			st.Exams.data[k][j].name = line.substr(5, line.size()-6);
+            			j++;
+            			cout << j << '\n';
+            			line = "";
+            			if(j == st.Exams.subjCount[k]){
+            				k++;
+            				j = 0;
+            			}
+            		}	
+            	}
         	}
     	}
     	in.close(); 

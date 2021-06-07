@@ -196,6 +196,7 @@ public:
 			case 15:
 			{
 				mirea->loadFromFile();
+				mygetch();
 				frame = 1;
 				break;
 			}
