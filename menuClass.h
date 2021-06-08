@@ -86,8 +86,11 @@ public:
 
 				stud.setData();
 				mirea->students.push_back(stud);
-				//cout << db.at(1).name;
-				additionalMessage = "Запись прошла успешно!\n";
+				if(mirea->students.size() >= 2)
+					if(mirea->isInList())additionalMessage = "Студент с таким номером зачетки уже есть в базе данных!\n";
+					else additionalMessage = "Запись прошла успешно!\n";
+
+				mygetch();
 				frame = 1;
 				break;
 			}
@@ -196,7 +199,6 @@ public:
 			case 15:
 			{
 				mirea->loadFromFile();
-				mygetch();
 				frame = 1;
 				break;
 			}
@@ -213,7 +215,7 @@ public:
 			case 66:
 				index++; 
 				if(frame == 1 && index > 6)index = 6;
-				if(frame == 12 && index > 8)index = 8;
+				if(frame == 12 && index > 7)index = 7;
 				if(frame == 13 && index > 10)index = 10;
 				break;
 			case 67:	
@@ -340,15 +342,6 @@ public:
 						break;
 					}
 				}			
-				/*if(index == 1 && frame == 1)frame = 11;
-				else if(index == 2 && frame == 1)frame = 12, index = 1;
-				else if(index == 1 && frame == 12)frame = 121;
-				else if(index == 4 && frame == 12)frame = 1, index = 1;
-				else if(index == 6 && frame == 1)isRun = false;
-				else if(index == 3 && frame == 1)frame = 131;
-				else if(index == 4 && frame == 1)frame = 14;
-				else if(index == 5 && frame == 1)frame = 15;
-				//if(frame == 2 && index == 1)frame = 3;*/
 			break;
 		}
 	}
