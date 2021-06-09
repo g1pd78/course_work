@@ -77,6 +77,8 @@ public:
 
 	string DateOfEduStart;
 
+	int degree;
+
 	ExamsResultsClass Exams;
 
 	void setData() {
@@ -104,14 +106,8 @@ public:
 		Exams.inputSubj();
 	}
 
-
 	void setName(string newName){
 		name = newName;
-	}
-
-	void printName(){
-	 	cout << "Имя студента:\n";
-	 	cout << name << '\n';
 	}
 };
 
@@ -206,7 +202,6 @@ public:
 				printInfo(i);
 			cout << "Нажмите любую клавишу для продолжения...\n";
 	}
-	///остальные поиски
 
 	void editPrm(string UCN, int prm){
 		bool wasChanged = false;
@@ -415,5 +410,42 @@ public:
     	in.close(); 
     	
     	cout << "Загрузка из ДБ закончена!\nНажмите любую клавишу для продолжения...\n";
+	}
+
+	void calculateDegree(){
+		for(int i = 0;i < students.size();i++){
+			int _five = 0, _four = 0, _three = 0, _two = 0, sum = 0;
+			for(int j = 0;j < students.at(i).Exams.semCount;j++){
+				for(int k = 0;k < students.at(i).Exams.subjCount[j];k++){
+					if(students.at(i).Exams.data[j][k].mark == 5)_five++;
+					if(students.at(i).Exams.data[j][k].mark == 4)_four++;
+					if(students.at(i).Exams.data[j][k].mark == 3)_three++;
+					if(students.at(i).Exams.data[j][k].mark == 3)_two++;
+
+					sum++;
+				}
+			}
+			if(sum == _five)students.at(i).degree = 5;
+			else if(_three + _two == 0)students.at(i).degree = 4;
+			else if(_two == 0)students.at(i).degree = 3;
+		}
+	}
+
+	void var46(int x){
+		string str;
+		calculateDegree();
+
+		cout << "Какой пол интересует?!\n";
+		cin >> str;
+
+		for(int i = 0;i < students.size();i++){
+			if(str == students.at(i).sex){
+				if(students.at(i).degree == x){
+					cout << students.at(i).name << '\n';
+					cout << students.at(i).uniqueCardNumber << '\n';
+					cout << "------------------------------\n";
+				}
+			}
+		}
 	}
 }; 	

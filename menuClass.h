@@ -30,6 +30,8 @@ public:
 	string changeInfo = "Изменить информацию о студенте";
 	string intoFile = "Записать дб в файл";
 	string fromFile = "Загрузить из дб";
+	string exercise = "Выполнить вариант";
+
 	
 	string exitLine = "Выход";
 	
@@ -75,7 +77,8 @@ public:
 				if(index == 3)printLine(changeInfo, 1); else printLine(changeInfo, 0);
 				if(index == 4)printLine(intoFile, 1); else printLine(intoFile, 0);
 				if(index == 5)printLine(fromFile, 1); else printLine(fromFile, 0);
-				if(index == 6)printLine(exitLine, 1); else printLine(exitLine, 0);
+				if(index == 6)printLine(exercise, 1); else printLine(exercise, 0);
+				if(index == 7)printLine(exitLine, 1); else printLine(exitLine, 0);
 				if(!additionalMessage.empty())printLine(additionalMessage, 1), additionalMessage = "";
 				break;
 			}
@@ -202,6 +205,19 @@ public:
 				frame = 1;
 				break;
 			}
+			case 16:
+			{
+				int x;
+				cout << "Введите режим:\n";
+				cin >> x;
+				mirea->var46(x);
+				mygetch();
+				frame = 1;
+				/*mirea->calculateDegree();
+				for(int i = 0;i < mirea->students.size();i++)
+					cout << mirea->students.at(i).degree << '\n';*/
+				break;
+			}
 		}
 	}
 
@@ -214,7 +230,7 @@ public:
 			break;
 			case 66:
 				index++; 
-				if(frame == 1 && index > 6)index = 6;
+				if(frame == 1 && index > 7)index = 7;
 				if(frame == 12 && index > 7)index = 7;
 				if(frame == 13 && index > 10)index = 10;
 				break;
@@ -250,6 +266,11 @@ public:
 								break;
 							}
 							case 6:
+							{
+								frame = 16;
+								break;
+							}
+							case 7:
 							{
 								isRun = false;
 								break;
